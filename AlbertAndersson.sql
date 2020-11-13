@@ -71,3 +71,29 @@ FROM USERS;
 
 GO
 
+--Skriv en query som returnerar en tabell med alla användarnamn i ”NewUsers”
+--som inte är unika i den första kolumnen, och antalet gånger de är duplicerade i
+--den andra kolumnen.
+
+SELECT 
+	UserName,
+	Count(UserName) as 'Duplicates'
+FROM
+	NewUsers
+GROUP BY 
+	UserName
+HAVING
+	Count(UserName) > 1
+
+GO
+
+--Skriv en följd av queries som uppdaterar de användare med dubblerade
+--användarnamn som du fann ovan, så att alla användare får ett unikt
+--användarnamn. D.v.s du kan hitta på nya användarnamn för de användarna, så
+--länge du ser till att alla i ”NewUsers” har unika värden på ’Username’.
+
+UPDATE NewUsers SET UserName = 'sigpet01' WHERE Name = 'Sigfrid Petersson'
+UPDATE NewUsers SET UserName = 'sigpet02' WHERE Name = 'Sigrid Pettersson'
+UPDATE NewUsers SET UserName = 'felber01' WHERE Name = 'Felicia Bertilsson'
+
+GO
