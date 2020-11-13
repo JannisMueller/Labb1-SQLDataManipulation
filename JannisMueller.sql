@@ -7,13 +7,36 @@ SELECT
 INTO
     SuccessfulMissions
 FROM 
-    MoonMissions;   
+    MoonMissions;
 
 GO
+
 UPDATE SuccessfulMissions
 SET Operator = TRIM(Operator,1)
+
 GO
-SELECT * FROM SuccessfulMissions;
+
+DELETE FROM
+     SuccessfulMissions
+WHERE [Launch date] > '2009'
+
+GO
+
+SELECT
+    Operator,
+    [Mission type],
+    Count([Mission type]) AS 'Mission Count'
+FROM
+    SuccessfulMissions
+GROUP BY 
+    Operator, 
+    [Mission Type]
+HAVING 
+    Count([Mission type]) > 1
+ORDER BY 
+    Operator, 
+    [Mission type]
+
 GO
 
 SELECT
@@ -26,7 +49,8 @@ SELECT
 INTO
     NewUsers
 FROM 
-Users;
+Users;  
+
 GO
 
 SELECT
@@ -39,6 +63,7 @@ GROUP BY
     UserName
 HAVING 
    COUNT(UserName) > 1;
+
 GO
 
 UPDATE NewUsers SET UserName = 'sigp01' WHERE [Name] = 'Sigfrid Petersson'
@@ -46,12 +71,14 @@ UPDATE NewUsers SET UserName = 'sigp02' WHERE [Name] = 'Sigrid Pettersson'
 UPDATE NewUsers SET UserName = 'felb01' WHERE [Name] = 'Felicia Bertilsson'
 
 GO
+
 DELETE FROM
      NewUsers
 WHERE 
     SUBSTRING(ID,1,2) < 70 
 AND
     GENDER = 'Female';
+
 GO
 
 INSERT INTO
@@ -70,4 +97,5 @@ FROM
     NewUsers
 GROUP BY
     Gender;
+
 GO
