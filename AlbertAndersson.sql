@@ -1,9 +1,3 @@
-DROP TABLE SuccessfulMissions
-
---Använd ”select into” för att ta ut kolumnerna ’Spacecraft’, ’Launch date’,
---’Carrier rocket’, ’Operator’, samt ’Mission type’ för alla lyckade uppdrag
---(Successful outcome) och sätt in i en ny tabell med namn ”SuccessfulMissions”.
-
 SELECT 
 	Spacecraft,
 	[Launch date],
@@ -11,7 +5,7 @@ SELECT
 	Operator,
 	[Mission type]
 INTO 
-	SuccessfulMissions
+	'SuccessfulMissions'
 FROM 
 	MoonMissions
 WHERE 
@@ -19,43 +13,22 @@ WHERE
 
 GO
 
---I kolumnen ’Operator’ har det smugit sig in ett eller flera mellanslag före
---operatörens namn. Skriv en query som uppdaterar ”SuccessfulMissions” och
---tar bort mellanslagen kring operatör.
-
 Update 
 	SuccessfulMissions
 SET
 	Operator = TRIM(Operator)
 
 GO
-
---Skriv en query som tar bort alla uppdrag utförda 2010 eller senare från
---”SuccessfulMissions” DELETE FROM 	SuccessfulMissionsWHERE [Launch date] >= '2010-10-01 00:00:00.0000000'GO
---Skriv en select query som tar ut, grupperar, samt sorterar på kolumnerna
---’Operator’ och 
--- ’Mission type’ 
--- från ”SuccessfulMissions”. 
-
--- Som en tredje kolumn
---’Mission count’ i resultatet vill vi ha antal uppdrag av varje operatör och typ. Ta
---bara med de grupper som har fler än ett (>1) uppdrag av samma typ och
---operatör. SELECT 	Operator,	[Mission type],	Count([Mission type]) AS 'Mission Count'FROM SuccessfulMissionsGROUP BY Operator, [Mission Type]
-	HAVING Count([Mission type]) > 1
-ORDER BY Operator, [Mission type]
+DELETE FROM 	SuccessfulMissionsWHERE 	[Launch date] >= '2010'GOSELECT 	Operator,	[Mission type],	Count([Mission type]) AS 'Mission Count'FROM 	SuccessfulMissionsGROUP BY 
+	Operator, 
+	[Mission Type]
+HAVING 
+	Count([Mission type]) > 1
+ORDER BY 
+	Operator, 
+	[Mission type]
 
 GO
-
---- SLUTAT HÄR ----
-
---Users
---Ta ut samtliga rader och kolumner från tabellen ”Users”, men slå ihop
---’Firstname’ och ’Lastname’ till en ny kolumn ’Name’, 
--- samt lägg till en extra kolumn ’Gender’ som du ger värdet ’Female’ för alla användare vars näst sista
---siffra i personnumret är jämn, och värdet ’Male’ för de användare där siffran är
---udda. 
-
---Sätt in resultatet i en ny tabell ”NewUsers”
 
 SELECT 
 	*,
@@ -67,13 +40,10 @@ SELECT
 	END AS 'Gender'
 INTO 
 	NewUsers
-FROM USERS;
+FROM 
+	USERS;
 
 GO
-
---Skriv en query som returnerar en tabell med alla användarnamn i ”NewUsers”
---som inte är unika i den första kolumnen, och antalet gånger de är duplicerade i
---den andra kolumnen.
 
 SELECT 
 	UserName,
@@ -87,13 +57,39 @@ HAVING
 
 GO
 
---Skriv en följd av queries som uppdaterar de användare med dubblerade
---användarnamn som du fann ovan, så att alla användare får ett unikt
---användarnamn. D.v.s du kan hitta på nya användarnamn för de användarna, så
---länge du ser till att alla i ”NewUsers” har unika värden på ’Username’.
+UPDATE NewUsers SET UserName = 'sigp01' WHERE Name = 'Sigfrid Petersson'
+UPDATE NewUsers SET UserName = 'sigp02' WHERE Name = 'Sigrid Pettersson'
+UPDATE NewUsers SET UserName = 'felb01' WHERE Name = 'Felicia Bertilsson'
 
-UPDATE NewUsers SET UserName = 'sigpet01' WHERE Name = 'Sigfrid Petersson'
-UPDATE NewUsers SET UserName = 'sigpet02' WHERE Name = 'Sigrid Pettersson'
-UPDATE NewUsers SET UserName = 'felber01' WHERE Name = 'Felicia Bertilsson'
+GO
 
+DELETE FROM
+	NewUsers
+WHERE 
+	SUBSTRING(Id, 1, 2) < 70 
+	AND
+	Gender = 'Female'
+
+GO
+
+INSERT INTO NewUsers
+VALUES('121212-1212'
+		, 'alband'
+		, '67b48cc32ab9f04431bd50656a4a26fc'
+		, 'Albert'
+		, 'Andersson'
+		, 'andersson.albert@gmail.com'
+		, '0730-550834'
+		, 'Albert Andersson'
+		, 'Male');
+
+GO
+
+SELECT 
+	Gender,
+	AVG(datediff(year, left(id, 6), getdate())) AS Ålder
+FROM 
+	NewUsers
+GROUP BY 
+	Gender
 GO
