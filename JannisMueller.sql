@@ -7,18 +7,22 @@ SELECT
 INTO
     SuccessfulMissions
 FROM 
-    MoonMissions;
+    MoonMissions
+WHERE 
+    Outcome = 'Successful';
 
 GO
 
-UPDATE SuccessfulMissions
-SET Operator = TRIM(Operator,1)
+UPDATE 
+    SuccessfulMissions
+SET 
+    Operator = TRIM(Operator);
 
 GO
 
 DELETE FROM
      SuccessfulMissions
-WHERE [Launch date] > '2009'
+WHERE [Launch date] > '2009';
 
 GO
 
@@ -35,7 +39,7 @@ HAVING
     Count([Mission type]) > 1
 ORDER BY 
     Operator, 
-    [Mission type]
+    [Mission type];
 
 GO
 
@@ -55,8 +59,7 @@ GO
 
 SELECT
     UserName,
-    COUNT(UserName) as 'Duplicates',
-    STRING_AGG (Name,',') AS 'Name'
+    COUNT(UserName) as 'Duplicates'
 FROM
     NewUsers
 GROUP BY 
@@ -68,7 +71,7 @@ GO
 
 UPDATE NewUsers SET UserName = 'sigp01' WHERE [Name] = 'Sigfrid Petersson'
 UPDATE NewUsers SET UserName = 'sigp02' WHERE [Name] = 'Sigrid Pettersson'
-UPDATE NewUsers SET UserName = 'felb01' WHERE [Name] = 'Felicia Bertilsson'
+UPDATE NewUsers SET UserName = 'felb01' WHERE [Name] = 'Felicia Bertilsson';
 
 GO
 
