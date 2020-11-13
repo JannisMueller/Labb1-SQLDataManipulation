@@ -1,3 +1,6 @@
+DROP TABLE NewUsers;
+DROP TABLE SuccessfulMissions;
+
 SELECT 
 	Spacecraft,
 	[Launch date],
@@ -5,28 +8,32 @@ SELECT
 	Operator,
 	[Mission type]
 INTO 
-	'SuccessfulMissions'
+	SuccessfulMissions
 FROM 
 	MoonMissions
 WHERE 
-	Outcome = 'Successful'
+	Outcome = 'Successful';
 
 GO
 
 Update 
 	SuccessfulMissions
 SET
-	Operator = TRIM(Operator)
+	Operator = TRIM(Operator);
 
-GO
-DELETE FROM 	SuccessfulMissionsWHERE 	[Launch date] >= '2010'GOSELECT 	Operator,	[Mission type],	Count([Mission type]) AS 'Mission Count'FROM 	SuccessfulMissionsGROUP BY 
+GODELETE FROM
+	SuccessfulMissions
+WHERE 
+	[Launch date] > '2009';
+
+GOSELECT 	Operator,	[Mission type],	Count([Mission type]) AS 'Mission Count'FROM 	SuccessfulMissionsGROUP BY 
 	Operator, 
 	[Mission Type]
 HAVING 
 	Count([Mission type]) > 1
 ORDER BY 
 	Operator, 
-	[Mission type]
+	[Mission type];
 
 GO
 
@@ -53,13 +60,13 @@ FROM
 GROUP BY 
 	UserName
 HAVING
-	Count(UserName) > 1
+	Count(UserName) > 1;
 
 GO
 
-UPDATE NewUsers SET UserName = 'sigp01' WHERE Name = 'Sigfrid Petersson'
-UPDATE NewUsers SET UserName = 'sigp02' WHERE Name = 'Sigrid Pettersson'
-UPDATE NewUsers SET UserName = 'felb01' WHERE Name = 'Felicia Bertilsson'
+UPDATE NewUsers SET UserName = 'sigp01' WHERE Name = 'Sigfrid Petersson';
+UPDATE NewUsers SET UserName = 'sigp02' WHERE Name = 'Sigrid Pettersson';
+UPDATE NewUsers SET UserName = 'felb01' WHERE Name = 'Felicia Bertilsson';
 
 GO
 
@@ -68,28 +75,28 @@ DELETE FROM
 WHERE 
 	SUBSTRING(Id, 1, 2) < 70 
 	AND
-	Gender = 'Female'
+	Gender = 'Female';
 
 GO
 
 INSERT INTO NewUsers
-VALUES('121212-1212'
+VALUES('841212-1237'
 		, 'alband'
 		, '67b48cc32ab9f04431bd50656a4a26fc'
 		, 'Albert'
 		, 'Andersson'
 		, 'andersson.albert@gmail.com'
 		, '0730-550834'
-		, 'Albert Andersson'
-		, 'Male');
+		, 'Albert Andersson', 'Male');
 
 GO
 
 SELECT 
 	Gender,
-	AVG(datediff(year, left(id, 6), getdate())) AS Ålder
+	AVG(datediff(year, left(id, 6), getdate())) AS 'Average Age'
 FROM 
 	NewUsers
 GROUP BY 
-	Gender
+	Gender;
+
 GO
