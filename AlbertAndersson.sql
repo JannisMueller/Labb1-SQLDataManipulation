@@ -45,20 +45,29 @@ GO
 ORDER BY Operator, [Mission type]
 
 GO
+
 --- SLUTAT HÄR ----
 
 --Users
 --Ta ut samtliga rader och kolumner från tabellen ”Users”, men slå ihop
---’Firstname’ och ’Lastname’ till en ny kolumn ’Name’, samt lägg till en extra
---kolumn ’Gender’ som du ger värdet ’Female’ för alla användare vars näst sista
+--’Firstname’ och ’Lastname’ till en ny kolumn ’Name’, 
+-- samt lägg till en extra kolumn ’Gender’ som du ger värdet ’Female’ för alla användare vars näst sista
 --siffra i personnumret är jämn, och värdet ’Male’ för de användare där siffran är
---udda. Sätt in resultatet i en ny tabell ”NewUsers”
+--udda. 
 
-SELECT * FROM USERS;
+--Sätt in resultatet i en ny tabell ”NewUsers”
 
 SELECT 
-	--Firstname + ' ' + Lastname,
-	*
-FROM USERS
---ORDER BY USERNAME
-GROUP BY Username having count(* ) > 1
+	*,
+	FirstName + ' ' + LastName AS 'Name',
+	CASE
+		WHEN 
+			SUBSTRING(id, 10, 1) % 2 = 1 THEN 'Male'
+		ELSE 'Female'
+	END AS 'Gender'
+INTO 
+	NewUsers
+FROM USERS;
+
+GO
+
