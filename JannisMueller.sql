@@ -1,15 +1,3 @@
-# Manipulera data i befintlig databas med hjälp av SQL
-
-## Kurs: Utveckling i databas och databasadministration | Javautvecklare 2020
-
-
-
-### Innehåll
-
-Innehåller mina SQL queries för att lösa labbuppgift  `(Labb1.pdf)`. 
-
-
-```sql
 SELECT
     Spacecraft,
     [Launch date],
@@ -24,9 +12,7 @@ WHERE
     Outcome = 'Successful';
 
 GO
-```
 
-```sql
 UPDATE 
     SuccessfulMissions
 SET 
@@ -39,9 +25,7 @@ DELETE FROM
 WHERE [Launch date] > '2009';
 
 GO
-```
 
-```sql
 SELECT
     Operator,
     [Mission type],
@@ -58,9 +42,7 @@ ORDER BY
     [Mission type];
 
 GO
-```
 
-```sql
 SELECT
      *,
     FirstName + ' ' + LastName as 'Name',
@@ -74,9 +56,7 @@ FROM
 Users;  
 
 GO
-```
 
-```sql
 SELECT
     UserName,
     COUNT(UserName) as 'Duplicates'
@@ -88,17 +68,13 @@ HAVING
    COUNT(UserName) > 1;
 
 GO
-```
 
-```sql
 UPDATE NewUsers SET UserName = 'sigp01' WHERE [Name] = 'Sigfrid Petersson'
 UPDATE NewUsers SET UserName = 'sigp02' WHERE [Name] = 'Sigrid Pettersson'
 UPDATE NewUsers SET UserName = 'felb01' WHERE [Name] = 'Felicia Bertilsson';
 
 GO
-```
 
-```sql
 DELETE FROM
      NewUsers
 WHERE 
@@ -107,20 +83,16 @@ AND
     GENDER = 'Female';
 
 GO
-```
 
-```sql
 INSERT INTO
     NewUsers
 VALUES 
-    ('840717-1231', 'alband',
-    '47551f837eb5a3f260sd124fdfd03730', 'Albert',
-    'Andersson','andersson.albert@gmail.com',
-    '0730-550834','Albert Andersson','Male');
+    ('841014-1231', 'janmue',
+    '47551f837eb5a3f260sd124fdfd03730', 'Jannis',
+    'Mueller','jannis.mueller@hotmail.de',
+    '0723-068922','Jannis Mueller','Male');
 GO
-```
 
-```sql
 SELECT
     Gender,
     AVG(DATEDIFF(year, LEFT(id,6), GETDATE())) AS "average age"
@@ -130,5 +102,3 @@ GROUP BY
     Gender;
 
 GO
-```
-
