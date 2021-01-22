@@ -1,104 +1,102 @@
-SELECT
-    Spacecraft,
-    [Launch date],
-    [Carrier rocket],
-    Operator,
-    [Mission type]
-INTO
-    SuccessfulMissions
+DROP TABLE NewUsers;
+DROP TABLE SuccessfulMissions;
+
+SELECT 
+	Spacecraft,
+	[Launch date],
+	[Carrier rocket],
+	Operator,
+	[Mission type]
+INTO 
+	SuccessfulMissions
 FROM 
-    MoonMissions
+	MoonMissions
 WHERE 
-    Outcome = 'Successful';
+	Outcome = 'Successful';
 
 GO
 
-UPDATE 
-    SuccessfulMissions
-SET 
-    Operator = TRIM(Operator);
+Update 
+	SuccessfulMissions
+SET
+	Operator = TRIM(Operator);
 
-GO
+GODELETE FROM
+	SuccessfulMissions
+WHERE 
+	[Launch date] > '2009';
 
-DELETE FROM
-     SuccessfulMissions
-WHERE [Launch date] > '2009';
-
-GO
-
-SELECT
-    Operator,
-    [Mission type],
-    Count([Mission type]) AS 'Mission Count'
-FROM
-    SuccessfulMissions
-GROUP BY 
-    Operator, 
-    [Mission Type]
+GOSELECT 	Operator,	[Mission type],	Count([Mission type]) AS 'Mission Count'FROM 	SuccessfulMissionsGROUP BY 
+	Operator, 
+	[Mission Type]
 HAVING 
-    Count([Mission type]) > 1
+	Count([Mission type]) > 1
 ORDER BY 
-    Operator, 
-    [Mission type];
+	Operator, 
+	[Mission type];
 
 GO
 
-SELECT
-     *,
-    FirstName + ' ' + LastName as 'Name',
-    CASE
-        WHEN  SUBSTRING (ID,10,1) % 2 = 0 THEN 'Female'
-        ELSE 'Male'
-        END as 'Gender'
-INTO
-    NewUsers
+SELECT 
+	*,
+	FirstName + ' ' + LastName AS 'Name',
+	CASE
+		WHEN 
+			SUBSTRING(id, 10, 1) % 2 = 1 THEN 'Male'
+		ELSE 'Female'
+	END AS 'Gender'
+INTO 
+	NewUsers
 FROM 
-Users;  
+	USERS;
 
 GO
 
-SELECT
-    UserName,
-    COUNT(UserName) as 'Duplicates'
+SELECT 
+	UserName,
+	Count(UserName) as 'Duplicates'
 FROM
-    NewUsers
+	NewUsers
 GROUP BY 
-    UserName
-HAVING 
-   COUNT(UserName) > 1;
+	UserName
+HAVING
+	Count(UserName) > 1;
 
 GO
 
-UPDATE NewUsers SET UserName = 'sigp01' WHERE [Name] = 'Sigfrid Petersson'
-UPDATE NewUsers SET UserName = 'sigp02' WHERE [Name] = 'Sigrid Pettersson'
-UPDATE NewUsers SET UserName = 'felb01' WHERE [Name] = 'Felicia Bertilsson';
+UPDATE NewUsers SET UserName = 'sigp01' WHERE Name = 'Sigfrid Petersson';
+UPDATE NewUsers SET UserName = 'sigp02' WHERE Name = 'Sigrid Pettersson';
+UPDATE NewUsers SET UserName = 'felb01' WHERE Name = 'Felicia Bertilsson';
 
 GO
 
 DELETE FROM
-     NewUsers
+	NewUsers
 WHERE 
-    SUBSTRING(ID,1,2) < 70 
-AND
-    GENDER = 'Female';
+	SUBSTRING(Id, 1, 2) < 70 
+	AND
+	Gender = 'Female';
 
 GO
 
-INSERT INTO
-    NewUsers
-VALUES 
-    ('840717-1231', 'alband',
-    '47551f837eb5a3f260sd124fdfd03730', 'Albert',
-    'Andersson','andersson.albert@gmail.com',
-    '0730-550834','Albert Andersson','Male');
+INSERT INTO NewUsers
+VALUES('841212-1237'
+		, 'alband'
+		, '67b48cc32ab9f04431bd50656a4a26fc'
+		, 'Albert'
+		, 'Andersson'
+		, 'andersson.albert@gmail.com'
+		, '0730-550834'
+		, 'Albert Andersson', 'Male');
+
 GO
 
-SELECT
-    Gender,
-    AVG(DATEDIFF(year, LEFT(id,6), GETDATE())) AS "average age"
-FROM
-    NewUsers
-GROUP BY
-    Gender;
+SELECT 
+	Gender,
+	AVG(datediff(year, left(id, 6), getdate())) AS 'Average Age'
+FROM 
+	NewUsers
+GROUP BY 
+	Gender;
 
 GO
